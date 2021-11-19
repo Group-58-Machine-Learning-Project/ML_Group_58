@@ -26,6 +26,7 @@ def main():
     # accommodation = open_csv('scraping/houses.csv')
     scatter_plots(accommodation)
 
+
 def scatter_plots(accommodation):
     # four variables: bedrooms, bathrooms, BER, distance
     prices, bedrooms, bathrooms, distance = [], [], [], []
