@@ -25,7 +25,6 @@ def format_listing(listings_s, number_of_listings):
                     accommodation_inner["bedrooms"] = int(re.sub("[^0-9]", "", listing.bedrooms))
             except Exception as e:
                 print(e)
-                ###
             try:
                 if(listing.bathrooms != None and listing.bathrooms != '' and type(listing.bathrooms) != float):
                     accommodation_inner["bathrooms"] = int(re.sub("[^0-9]", "", listing.bathrooms))
@@ -33,7 +32,7 @@ def format_listing(listings_s, number_of_listings):
                     accommodation_inner["bathrooms"] = 0
             except:
                 print(listing.bathrooms)
-                # Trinity lat and lon: 53.3438° N, 6.2546° W
+            # Trinity lat and lon: 53.3438° N, 6.2546° W
             # co-ords of tcd: 53.3438° N, 6.2546° W
             # co-ords of ucd: 53.3065° N, 6.2255° W
             # ucd_co_ords = [53.3065, -6.2255]
@@ -67,3 +66,32 @@ def open_csv(filename):
     # input_file = csv.DictReader(open("scraping/houses.csv"))
     # return input_file
     return pd.read_csv(filename).to_dict('records')
+
+def BER_convert(rating, index):
+    # SI_666 = BER Exempt
+    score = 0
+    if rating == 'SI_666':
+        return score
+    elif rating == 'F':
+        return 2
+    elif rating == 'G':
+        return 1
+    try:
+        rate = list(rating)
+        temp = int(rate[1])
+        score = temp
+        if rate[0] == 'A':
+            return score + 10
+        elif rate[0] == 'B':
+            return score + 7
+        elif rate[0] == 'C':
+            return score + 4
+        elif rate[0] == 'D':
+            return score + 3
+        elif rate[0] == 'E':
+            return score + 1
+        else:
+            print("Error: BER rating missing")
+    except:
+        print(rating)
+        print(index)
