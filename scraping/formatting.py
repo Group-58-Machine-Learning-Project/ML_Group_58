@@ -43,9 +43,9 @@ def format_listing(listings_s, number_of_listings):
                 accommodation_inner["sqr"] = "N/A"
             accommodation_inner["distance"] = listing.distance_to(location)
             try:
-                accommodation_inner["BER"] = listing.ber
+                accommodation_inner["BER"] = BER_convert(listing.ber)
             except:
-                accommodation_inner["BER"] = "NA"
+                accommodation_inner["BER"] = 0
             accommodation_inner["type"] = listing.sale_type
             accommodation.append(accommodation_inner)
         except Exception as e:
@@ -67,7 +67,7 @@ def open_csv(filename):
     # return input_file
     return pd.read_csv(filename).to_dict('records')
 
-def BER_convert(rating, index):
+def BER_convert(rating):
     # SI_666 = BER Exempt
     score = 0
     if rating == 'SI_666':
@@ -93,5 +93,5 @@ def BER_convert(rating, index):
         else:
             print("Error: BER rating missing")
     except:
-        print(rating)
-        print(index)
+        if rating != 'NA':
+            print(rating)

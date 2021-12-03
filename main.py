@@ -14,16 +14,17 @@ print("Attempting web scapping from daft.ie")
 
 def main():
     # Code below searches for new daft listings which are residential rent
-    listings = pull_properties(SearchType.RESIDENTIAL_RENT)
+    # listings = pull_properties(SearchType.RESIDENTIAL_RENT)
     # Comment out the line below if you want to exclude shared rent
-    listings2 = pull_properties(SearchType.SHARING)
+    # listings2 = pull_properties(SearchType.SHARING)
     # Combine the two searches together, and format them into a csv friendly format
-    accommodation = format_listing(listings[0] + listings2[0], listings[1] + listings2[1])
+    # accommodation = format_listing(listings[0] + listings2[0], listings[1] + listings2[1])
+    # accommodation = format_listing(listings[0], listings[1])
     # Then inserts into a csv file so we don't have to search each time
-    format_to_csv(accommodation)
+    # format_to_csv(accommodation)
     # Open csv into accommodation dictionary
     # Comment everything above, and uncomment everything below if you don't want to search each time
-    # accommodation = open_csv('scraping/houses.csv')
+    accommodation = open_csv('scraping/houses.csv')
     scatter_plots(accommodation)
 
 
@@ -36,9 +37,12 @@ def scatter_plots(accommodation):
         bedrooms.append(index['bedrooms'])
         bathrooms.append(index['bathrooms'])
         distance.append(index['distance'])
-        if (index['BER'] != "NA") and (type(index['BER']) != float):
+        # if (index['BER'] != "NA") and (type(index['BER']) != float):
+        #     prices_BER.append(index['price'])
+        #     BER.append(BER_convert(index['BER'], index))
+        if(index['BER'] != "NA") and (type(index['BER']) != float):
             prices_BER.append(index['price'])
-            BER.append(BER_convert(index['BER'], index))
+            BER.append(index['BER'])
     # Prices VS Bedrooms
     plt.scatter(bedrooms, prices, c='g', label="Prices VS Bedrooms")
     plt.title("Prices VS Bedrooms")
