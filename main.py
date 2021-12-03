@@ -3,6 +3,7 @@
 from daftlistings import Daft, Location, SearchType, PropertyType
 from scraping.scraping import pull_properties
 from scraping.formatting import format_listing, format_to_csv, open_csv
+from models.linear import linear
 import matplotlib.pyplot as plt
 
 # Firstly, should web scrap
@@ -25,7 +26,21 @@ def main():
     # Open csv into accommodation dictionary
     # Comment everything above, and uncomment everything below if you don't want to search each time
     accommodation = open_csv('scraping/houses.csv')
-    scatter_plots(accommodation)
+    # scatter_plots(accommodation)
+
+    # TO-DO:
+    #  Call models (models should have different
+    #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
+    ## Linear
+    linear()
+    ## LASSO
+    ## Ridge
+    ## kNN
+    # Summary Methods
+    # Vs. Dummy
+    # Standard Error / Square-mean-error
+    # Confusion Matrix
+    # ROC Curve
 
 
 def scatter_plots(accommodation):
