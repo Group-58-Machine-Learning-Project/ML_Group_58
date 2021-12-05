@@ -45,7 +45,7 @@ def format_listing(listings_s, number_of_listings):
                 accommodation_inner["sqr"] = "N/A"
             accommodation_inner["distance"] = listing.distance_to(location)
             try:
-                accommodation_inner["BER"] = BER_convert(listing.ber)
+                accommodation_inner["BER"] = BER_convert(listing.ber) / 14
             except:
                 accommodation_inner["BER"] = 0
             accommodation_inner["type"] = listing.sale_type

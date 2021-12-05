@@ -25,10 +25,12 @@ def linear(X, y, accommodation):
         preds = model.predict(X_polynomial[test])
         error.append(metrics.mean_squared_error(y[test], preds))
         print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
-              + str(model.coef_) + '\033[91m' + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
+              + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
     linear_error = np.mean(error)
     model = LinearRegression().fit(X_polynomial, y)
     scores = cross_val_score(model, X_polynomial, y, cv=5)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+    print("Intercept = " + str(model.intercept_) + "\nCo-efficients = " + str(model.coef_))
     return linear_error
 
 def format_accommodation(accommodation):
