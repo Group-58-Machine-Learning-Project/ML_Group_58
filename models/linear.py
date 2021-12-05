@@ -1,5 +1,5 @@
 
-C_range = [0.001, 0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
+
 import numpy as np
 from sklearn.linear_model import *
 from sklearn import metrics
@@ -12,10 +12,11 @@ import pandas as pd
 
 
 
-def linear(X, y):
+def linear(X, y, C_r):
     from sklearn.metrics import mean_squared_error
     from sklearn.metrics import confusion_matrix
     print("Calling linear model")
+    C_range = C_r
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
     X_polynomial = np.array(X)
     kf = KFold(n_splits=5)

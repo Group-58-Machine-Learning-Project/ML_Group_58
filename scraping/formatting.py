@@ -15,7 +15,7 @@ def format_listing(listings_s, number_of_listings):
         # Can use listing.title either but some listings have the same title
         try:
             accommodation_inner["name"] = listing.id
-            accommodation_inner["price"] = listing.monthly_price
+            accommodation_inner["price"] = (listing.monthly_price / 1000) * 1000
             # int(re.sub("[^0-9]", "", listing.monthly_price))
             try:
                 if ((listing.bedrooms == 'Double Room') or (listing.bedrooms == 'Single Room') or (listing.bedrooms == 'Shared Room') or (listing.bedrooms == 'Twin Room')):
@@ -125,7 +125,8 @@ def format_listings_for_models():
     for i in x_bedrooms:
         # X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
         if(0 <= x_ber[inc] and x_ber[inc] <= 14):
-            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
+            #X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
             #X.append([round(x_distance[inc], 3)])
+            X.append([int(x_bathrooms[inc])])
         inc = inc + 1
     return [y, X]

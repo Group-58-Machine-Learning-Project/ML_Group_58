@@ -37,16 +37,16 @@ def main():
     #  Call models (models should have different
     #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
     ## Linear
-    linear_error = linear(inputs_and_outputs[1], inputs_and_outputs[0])
-    linear_error = [linear_error] * 9
+    linear_error = linear(inputs_and_outputs[1], inputs_and_outputs[0], C_range)
+    linear_error = [linear_error] * (len(C_range) + 1)
     ## LASSO
 
     ## Ridge
-    ridge_error = ridge(inputs_and_outputs[1], inputs_and_outputs[0])
+    ridge_error = ridge(inputs_and_outputs[1], inputs_and_outputs[0], C_range)
     ## kNN
 
     dummy_error = dummy_baseline(inputs_and_outputs[1], inputs_and_outputs[0])
-    dummy_error = [dummy_error] * 9
+    dummy_error = [dummy_error] * (len(C_range) + 1)
 
     plt.errorbar(C_range, linear_error, label="Linear Error")
     plt.errorbar(C_range, ridge_error, label="Ridge Error")

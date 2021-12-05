@@ -12,12 +12,14 @@ import math
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import confusion_matrix
 
-def ridge(X, y):
+def ridge(X, y, C_r):
     print("Calling ridge model")
+    C_range = C_r
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
     X_polynomial = np.array(X)
     kf = KFold(n_splits=5)
     error = []
+    std_error = []
     ridge_error_c = []
     for C in C_range:
         #print("C = " + str(C))
@@ -26,6 +28,7 @@ def ridge(X, y):
             model.fit(X_polynomial[train], y[train])
             preds = model.predict(X_polynomial[test])
             error.append(metrics.mean_squared_error(y[test], preds))
+            std_error.append(metrics)
             #print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
             #      + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
         ridge_error_c.append(np.mean(error))
