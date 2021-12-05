@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e7dbe9c-e961-49f8-9efb-9e9b027d70a4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/linear.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/linear.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ridge.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/ridge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scraping/formatting.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/formatting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scraping/houses.csv" beforeDir="false" afterPath="$PROJECT_DIR$/scraping/houses.csv" afterDir="false" />
     </list>
@@ -138,6 +135,11 @@
           <url>file://$PROJECT_DIR$/models/linear.py</url>
           <line>29</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/scraping/formatting.py</url>
+          <line>122</line>
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
