@@ -5,6 +5,8 @@
 import pandas as pd
 import csv
 import re
+import numpy as np
+import pandas as pd
 
 def format_listing(listings_s, number_of_listings):
     accommodation = []
@@ -95,3 +97,23 @@ def BER_convert(rating):
     except:
         if rating != 'NA':
             print(rating)
+
+def format_listings_for_models():
+    # [prices, bedrooms, bathrooms, distance, BER]
+    # df = pd.read_csv("houses_copy.csv")
+    df = pd.read_csv("C:/Users/John/Code/ML/ML_Group/scraping/houses.csv")
+    x_bedrooms = df.iloc[:, 2]  # Contains the first column of X values
+    x_bathrooms = df.iloc[:, 3]  # Contains the second colunm of X values
+    x_distance = df.iloc[:, 5]  # Contains the first column of X values
+    x_ber = df.iloc[:, 6]  # Contains the second colunm of X values
+    X = np.column_stack((x_bedrooms, x_bathrooms, x_distance, x_ber))  # Contains the combination of the two X columns
+    y = df.iloc[:, 1]  # Contains the y value column
+
+    X = []
+    inc = 0
+    for i in x_bedrooms:
+        # X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
+        if(0 <= x_ber[inc] and x_ber[inc] <= 14):
+            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), int(x_ber[inc])])
+        inc = inc + 1
+    return [y, X]
