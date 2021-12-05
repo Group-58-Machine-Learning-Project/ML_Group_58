@@ -107,13 +107,14 @@ def format_listings_for_models():
     x_distance = df.iloc[:, 5]  # Contains the first column of X values
     x_ber = df.iloc[:, 6]  # Contains the second colunm of X values
     X = np.column_stack((x_bedrooms, x_bathrooms, x_distance, x_ber))  # Contains the combination of the two X columns
-    y = df.iloc[:, 1]  # Contains the y value column
-
+    y_2 = df.iloc[:, 1]  # Contains the y value column
+    y = []
     X = []
     inc = 0
     for i in x_bedrooms:
         # X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
         if(0 <= x_ber[inc] and x_ber[inc] <= 14):
             X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), int(x_ber[inc])])
+            y.append(y_2[inc])
         inc = inc + 1
     return [y, X]

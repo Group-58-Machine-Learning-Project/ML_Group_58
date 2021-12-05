@@ -12,11 +12,11 @@ import pandas as pd
 
 
 
-def linear(X, y):
+def linear(X, y, accommodation):
     from sklearn.metrics import mean_squared_error
     from sklearn.metrics import confusion_matrix
     print("Calling linear model")
-    X_polynomial = PolynomialFeatures(4).fit_transform(X)
+    X_polynomial = PolynomialFeatures(1).fit_transform(X)
     kf = KFold(n_splits=5)
     error = []
     for train, test in kf.split(X_polynomial):
@@ -24,7 +24,11 @@ def linear(X, y):
         model.fit(X_polynomial[train], y[train])
         preds = model.predict(X_polynomial[test])
         error.append(metrics.mean_squared_error(y[test], preds))
+        print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
+              + str(model.coef_) + '\033[91m' + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
     linear_error = np.mean(error)
+    model = LinearRegression().fit(X_polynomial, y)
+    scores = cross_val_score(model, X_polynomial, y, cv=5)
     return linear_error
 
 def format_accommodation(accommodation):

@@ -12,7 +12,7 @@ from sklearn import linear_model
 # la_model = Lasso(alpha=currentAlpha)
 
 def ridge(X, y):
-    print("Calling linear model")
+    print("Calling ridge model")
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
     kf = KFold(n_splits=5)
     error = []
@@ -24,4 +24,7 @@ def ridge(X, y):
             preds = model.predict(X_polynomial[test])
             error.append(metrics.mean_squared_error(y[test], preds))
         ridge_error.append(np.mean(error))
+    mean_ridge = np.mean(ridge_error)
+    for entry in ridge_error:
+        entry = entry/mean_ridge
     return ridge_error
