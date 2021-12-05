@@ -5,9 +5,10 @@ from scraping.scraping import pull_properties
 from scraping.formatting import format_listing, format_to_csv, open_csv
 from models.linear import linear
 from models.ridge import ridge
+from summary.confusion_matrix import dummy_baseline
 from scraping.formatting import format_listings_for_models
 import matplotlib.pyplot as plt
-
+import numpy as np
 # Firstly, should web scrap
 print("Attempting web scapping from daft.ie")
 
@@ -17,14 +18,14 @@ print("Attempting web scapping from daft.ie")
 
 def main():
     # Code below searches for new daft listings which are residential rent
-    listings = pull_properties(SearchType.RESIDENTIAL_RENT)
+    # listings = pull_properties(SearchType.RESIDENTIAL_RENT)
     # Comment out the line below if you want to exclude shared rent
     # listings2 = pull_properties(SearchType.SHARING)
     # Combine the two searches together, and format them into a csv friendly format
     # accommodation = format_listing(listings[0] + listings2[0], listings[1] + listings2[1])
-    accommodation = format_listing(listings[0], listings[1])
+    # accommodation = format_listing(listings[0], listings[1])
     # Then inserts into a csv file so we don't have to search each time
-    format_to_csv(accommodation)
+    # format_to_csv(accommodation)
     inputs_and_outputs = format_listings_for_models()
     # Open csv into accommodation dictionary
     # Comment everything above, and uncomment everything below if you don't want to search each time
@@ -40,11 +41,13 @@ def main():
 
     ## Ridge
     ridge_error = ridge(inputs_and_outputs[1], inputs_and_outputs[0])
+    ridge_error = np.mean(ridge_error)
     ## kNN
 
-
-    print(linear_error)
-    print(ridge_error)
+    dummy_error = dummy_baseline(inputs_and_outputs[1], inputs_and_outputs[0])
+    print("Linear Error: " + str(linear_error))
+    print("Ridge Error:  " + str(ridge_error))
+    print("Dummy Error:  " + str(dummy_error))
     # Summary Methods
     # Vs. Dummy
     # Standard Error / Square-mean-error
