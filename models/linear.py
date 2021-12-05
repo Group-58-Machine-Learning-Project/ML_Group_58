@@ -10,7 +10,7 @@ import pandas as pd
 # currentAlpha = 1 / (2 * c)  # alpha value for current model using current c value
 # la_model = Lasso(alpha=currentAlpha)
 
-
+from sklearn.dummy import DummyClassifier
 
 def linear(X, y):
     from sklearn.metrics import mean_squared_error
@@ -25,14 +25,20 @@ def linear(X, y):
         model.fit(X_polynomial[train], y[train])
         preds = model.predict(X_polynomial[test])
         error.append(metrics.mean_squared_error(y[test], preds))
-        print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
-              + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
+        #print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
+        #      + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
     linear_error = np.mean(error)
     model = LinearRegression().fit(X_polynomial, y)
     scores = cross_val_score(model, X_polynomial, y, cv=5)
     print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     print("Intercept = " + str(model.intercept_) + "\nCo-efficients = " + str(model.coef_))
+
+    print("Dummy - Most Frequent")
+    dummy = DummyClassifier(strategy="most_frequent").fit(X_polynomial, y)
+    scores = cross_val_score(model, X_polynomial, y, cv=5)
+    print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
     return linear_error
+
 
 def format_accommodation(accommodation):
     prices, bedrooms, bathrooms, distance, BER = [], [], [], [], []

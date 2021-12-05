@@ -30,7 +30,6 @@ def format_listing(listings_s, number_of_listings):
             try:
                 if(listing.bathrooms != None and listing.bathrooms != '' and type(listing.bathrooms) != float):
                     accommodation_inner["bathrooms"] = int(re.sub("[^0-9]", "", listing.bathrooms))
-                    print(accommodation_inner["bathrooms"] / 4)
                 else:
                     accommodation_inner["bathrooms"] = 0
             except:
