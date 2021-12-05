@@ -1,5 +1,5 @@
 
-C_range = [0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
+C_range = [0.001, 0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
 import numpy as np
 from sklearn.linear_model import *
 from sklearn import metrics
@@ -8,13 +8,12 @@ from sklearn.preprocessing import PolynomialFeatures
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import linear_model
-# currentAlpha = 1 / (2 * c)  # alpha value for current model using current c value
-# la_model = Lasso(alpha=currentAlpha)
+import math
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import confusion_matrix
 
 def ridge(X, y):
-    print("Calling ridge model.....\n\n")
+    print("Calling ridge model")
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
     X_polynomial = np.array(X)
     kf = KFold(n_splits=5)

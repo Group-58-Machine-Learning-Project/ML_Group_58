@@ -1,5 +1,5 @@
 
-C_range = [0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
+C_range = [0.001, 0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
 import numpy as np
 from sklearn.linear_model import *
 from sklearn import metrics

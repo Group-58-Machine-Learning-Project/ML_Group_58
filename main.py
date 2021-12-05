@@ -33,27 +33,36 @@ def main():
     # scatter_plots(accommodation)
 
     # TO-DO:
+    C_range = [0.001, 0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
     #  Call models (models should have different
     #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
     ## Linear
     linear_error = linear(inputs_and_outputs[1], inputs_and_outputs[0])
+    linear_error = [linear_error] * 9
     ## LASSO
 
     ## Ridge
     ridge_error = ridge(inputs_and_outputs[1], inputs_and_outputs[0])
-    ridge_error = np.mean(ridge_error)
     ## kNN
 
     dummy_error = dummy_baseline(inputs_and_outputs[1], inputs_and_outputs[0])
+    dummy_error = [dummy_error] * 9
+
+    plt.errorbar(C_range, linear_error, label="Linear Error")
+    plt.errorbar(C_range, ridge_error, label="Ridge Error")
+    plt.errorbar(C_range, dummy_error, label="Dummy Error")
+    plt.xlabel("C")
+    plt.ylabel("Mean Square Error")
+    plt.title("Error of Different Algorithms")
+    plt.legend()
+    plt.show()
+
     print("Linear Error: " + str(linear_error))
     print("Ridge Error:  " + str(ridge_error))
     print("Dummy Error:  " + str(dummy_error))
     # Summary Methods
     # Vs. Dummy
     # Standard Error / Square-mean-error
-    # Confusion Matrix
-    # ROC Curve
-
 
 def scatter_plots(accommodation):
     # four variables: bedrooms, bathrooms, BER, distance

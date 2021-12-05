@@ -125,6 +125,7 @@ def format_listings_for_models():
     for i in x_bedrooms:
         # X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
         if(0 <= x_ber[inc] and x_ber[inc] <= 14):
-            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), x_bathrooms[inc], int(x_ber[inc])])
+            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
+            #X.append([round(x_distance[inc], 3)])
         inc = inc + 1
     return [y, X]
