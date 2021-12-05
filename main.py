@@ -26,13 +26,14 @@ def main():
     # Open csv into accommodation dictionary
     # Comment everything above, and uncomment everything below if you don't want to search each time
     accommodation = open_csv('scraping/houses.csv')
+    print("Successfully opened csv from local.")
     # scatter_plots(accommodation)
 
     # TO-DO:
     #  Call models (models should have different
     #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
     ## Linear
-    linear()
+    linear(accommodation)
     ## LASSO
     ## Ridge
     ## kNN
@@ -59,7 +60,7 @@ def scatter_plots(accommodation):
             prices_BER.append(index['price'])
             BER.append(index['BER'])
     # Prices VS Bedrooms
-    plt.scatter(bedrooms, prices, c='g', label="Prices VS Bedrooms")
+    plt.scatter(bedrooms, prices, c='b', label="Prices VS Bedrooms")
     plt.title("Prices VS Bedrooms")
     plt.xlabel("Price")
     plt.ylabel("# Bedrooms")
@@ -71,7 +72,7 @@ def scatter_plots(accommodation):
     plt.ylabel("# Bathrooms")
     plt.show()
     # Prices VS Distance
-    plt.scatter(distance, prices, c='g', label="Prices VS Distance")
+    plt.scatter(distance, prices, c='r', label="Prices VS Distance")
     plt.title("Prices VS Distance")
     plt.xlabel("Price")
     plt.ylabel("Distance")
