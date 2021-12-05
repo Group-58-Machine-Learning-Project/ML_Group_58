@@ -10,21 +10,27 @@ import pandas as pd
 from sklearn import linear_model
 # currentAlpha = 1 / (2 * c)  # alpha value for current model using current c value
 # la_model = Lasso(alpha=currentAlpha)
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import confusion_matrix
 
 def ridge(X, y):
-    print("Calling ridge model")
+    print("Calling ridge model.....\n\n")
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
     kf = KFold(n_splits=5)
     error = []
-    ridge_error = []
+    ridge_error_c = []
     for C in C_range:
         for train, test in kf.split(X_polynomial):
             model = linear_model.Ridge(alpha=(1/(2*C)))
             model.fit(X_polynomial[train], y[train])
             preds = model.predict(X_polynomial[test])
             error.append(metrics.mean_squared_error(y[test], preds))
-        ridge_error.append(np.mean(error))
-    mean_ridge = np.mean(ridge_error)
-    for entry in ridge_error:
-        entry = entry/mean_ridge
-    return ridge_error
+            print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
+                  + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y[test], preds)))
+        ridge_error_c.append(np.mean(error))
+        print("C = " + str(C))
+        model = linear_model.Ridge(alpha=(1/(2*0.5))).fit(X_polynomial, y)
+        scores = cross_val_score(model, X_polynomial, y, cv=5)
+        print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
+        print("Intercept = " + str(model.intercept_) + "\nCo-efficients = " + str(model.coef_))
+    return ridge_error_c

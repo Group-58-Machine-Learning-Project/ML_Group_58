@@ -12,11 +12,12 @@ import pandas as pd
 
 
 
-def linear(X, y, accommodation):
+def linear(X, y):
     from sklearn.metrics import mean_squared_error
     from sklearn.metrics import confusion_matrix
     print("Calling linear model")
     X_polynomial = PolynomialFeatures(1).fit_transform(X)
+    X_polynomial = np.array(X)
     kf = KFold(n_splits=5)
     error = []
     for train, test in kf.split(X_polynomial):

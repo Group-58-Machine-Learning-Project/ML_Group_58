@@ -30,6 +30,7 @@ def format_listing(listings_s, number_of_listings):
             try:
                 if(listing.bathrooms != None and listing.bathrooms != '' and type(listing.bathrooms) != float):
                     accommodation_inner["bathrooms"] = int(re.sub("[^0-9]", "", listing.bathrooms))
+                    print(accommodation_inner["bathrooms"] / 4)
                 else:
                     accommodation_inner["bathrooms"] = 0
             except:
@@ -45,7 +46,7 @@ def format_listing(listings_s, number_of_listings):
                 accommodation_inner["sqr"] = "N/A"
             accommodation_inner["distance"] = listing.distance_to(location)
             try:
-                accommodation_inner["BER"] = BER_convert(listing.ber) / 14
+                accommodation_inner["BER"] = BER_convert(listing.ber)
             except:
                 accommodation_inner["BER"] = 0
             accommodation_inner["type"] = listing.sale_type
@@ -53,7 +54,14 @@ def format_listing(listings_s, number_of_listings):
         except Exception as e:
             print(e)
             print(listing.bedrooms)
+    # accommodation = normalise(accommodation)
     return accommodation
+
+# def normalise(accommodation):
+#     # accommodation_inner["bedrooms"]
+#     # accommodation_inner["bathrooms"]
+#     # accommodation_inner["BER"]
+#     # accommodation_inner["distance"]
 
 
 def format_to_csv(file):
@@ -118,6 +126,6 @@ def format_listings_for_models():
     for i in x_bedrooms:
         # X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), round(x_distance[inc], 3), int(x_ber[inc])])
         if(0 <= x_ber[inc] and x_ber[inc] <= 14):
-            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), int(x_ber[inc])])
+            X.append([int(x_bedrooms[inc]), int(x_bathrooms[inc]), x_bathrooms[inc], int(x_ber[inc])])
         inc = inc + 1
     return [y, X]
