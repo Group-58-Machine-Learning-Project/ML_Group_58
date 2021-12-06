@@ -5,6 +5,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.model_selection import KFold
+from scraping.formatting import csv_for_models
 
 def gaussianKernel10(distances):
     weights = np.exp(-10*(distances**2))
@@ -26,40 +27,49 @@ def normalize(arr):
     arr = (arr * 2.0) - 1.0
     return arr
 
-df = pd.read_csv("scraping/houses.csv")
+def kNN():
+    print("\nCalling kNN model")
+    ber, price, bedrooms, bathrooms, distance = csv_for_models()
 
-ber = np.array(df.iloc[:,6])
-price = np.array(df.iloc[:,1])
-bedrooms = np.array(df.iloc[:,2])
-bathrooms = np.array(df.iloc[:,3])
-distance = np.array(df.iloc[:,5])
+    X = np.column_stack((bedrooms, bathrooms, distance, ber))
+    y = price
+    weightFunctions = ['uniform', gaussianKernel10, gaussianKernel100, gaussianKernel500]
 
-minPrice = np.min(price)
-maxPrice = np.max(price)
-price = normalize(price)
-bedrooms = normalize(bedrooms)
-bathrooms = normalize(bathrooms)
-distance = normalize(distance)
-ber = normalize(ber)
+    k_errors = []
+    for wf in weightFunctions:
 
-X = np.column_stack((bedrooms, bathrooms, distance, ber))
-y = price
-weightFunctions = ['uniform', gaussianKernel10, gaussianKernel100, gaussianKernel500]
+        mean = []
+        std = []
+        kValues = range(1,15)
+        kf = KFold(n_splits=5)
 
-for wf in weightFunctions:
+        for k in kValues:
 
-    mean = []
-    std = []
-    kValues = range(1,15)
-    kf = KFold(n_splits=5)
+            model = KNeighborsRegressor(n_neighbors=k, weights=wf)
+            temp = []
 
+            for train, test in kf.split(X):
+
+                model.fit(X[train], y[train])
+                ypred = model.predict(X[test])
+                error = mean_squared_error(y[test], ypred)
+                temp.append(error)
+
+            mean.append(np.array(temp).mean())
+            std.append(np.array(temp).std())
+
+        print(np.min(mean))
+
+        plt.errorbar(kValues, mean, yerr=std)
+        plt.xlabel("K")
+        plt.ylabel("Mean Square Error")
+        plt.show()
+
+    # Best of these is k = 15, with weight of 'uniform'
     for k in kValues:
-
-        model = KNeighborsRegressor(n_neighbors=k, weights=wf)
+        model = KNeighborsRegressor(n_neighbors=k, weights='uniform')
         temp = []
-
         for train, test in kf.split(X):
-
             model.fit(X[train], y[train])
             ypred = model.predict(X[test])
             error = mean_squared_error(y[test], ypred)
@@ -68,9 +78,4 @@ for wf in weightFunctions:
         mean.append(np.array(temp).mean())
         std.append(np.array(temp).std())
 
-    print(np.min(mean))
-
-    plt.errorbar(kValues, mean, yerr=std)
-    plt.xlabel("K")
-    plt.ylabel("Mean Square Error")
-    plt.show()
+    return mean, std

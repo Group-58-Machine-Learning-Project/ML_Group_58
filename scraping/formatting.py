@@ -53,14 +53,35 @@ def format_listing(listings_s, number_of_listings):
         except Exception as e:
             print(e)
             print(listing.bedrooms)
-    # accommodation = normalise(accommodation)
     return accommodation
 
-# def normalise(accommodation):
-#     # accommodation_inner["bedrooms"]
-#     # accommodation_inner["bathrooms"]
-#     # accommodation_inner["BER"]
-#     # accommodation_inner["distance"]
+def normalize(arr):
+    min = np.min(arr)
+    max = np.max(arr)
+    arr = arr - min
+    arr = arr / (max - min)
+    arr = (arr * 2.0) - 1.0
+    return arr
+
+def csv_for_models():
+    df = pd.read_csv("scraping/houses.csv")
+    ber = np.array(df.iloc[:, 6])
+    price = np.array(df.iloc[:, 1])
+    bedrooms = np.array(df.iloc[:, 2])
+    bathrooms = np.array(df.iloc[:, 3])
+    distance = np.array(df.iloc[:, 5])
+
+    price = normalize(price)
+    bedrooms = normalize(bedrooms)
+    bathrooms = normalize(bathrooms)
+    distance = normalize(distance)
+    ber = normalize(ber)
+
+    return ber, price, bedrooms, bathrooms, distance
+
+def get_distance():
+    df = pd.read_csv("scraping/houses.csv")
+    return np.array(df.iloc[:, 5])
 
 
 def format_to_csv(file):

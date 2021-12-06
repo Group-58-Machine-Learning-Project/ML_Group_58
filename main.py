@@ -1,19 +1,19 @@
 
 # Title:
-from daftlistings import Daft, Location, SearchType, PropertyType
-from scraping.scraping import pull_properties
-from scraping.formatting import format_listing, format_to_csv, open_csv
 from models.linear import linear
 from models.ridge import ridge
-from summary.confusion_matrix import dummy_baseline
+from models.lasso import lasso
+from models.knn import kNN
+from summary.dummy import dummy_
 from scraping.formatting import format_listings_for_models
 import matplotlib.pyplot as plt
+from scraping.formatting import csv_for_models, get_distance
+from sklearn.linear_model import *
+from sklearn import linear_model
+from sklearn.preprocessing import PolynomialFeatures
 import numpy as np
 # Firstly, should web scrap
 print("Attempting web scapping from daft.ie")
-
-# Returns files in the format:
-# 0: [name:string, sqr:double, beds:int, baths:int, distance:double, BER:double, type:string]
 
 
 def main():
@@ -32,37 +32,38 @@ def main():
     # accommodation = open_csv('scraping/houses.csv')
     # scatter_plots(accommodation)
 
-    # TO-DO:
-    C_range = [0.001, 0.01, 0.1, 1, 10, 50, 100, 1000, 10000]
+    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200, 300, 500, 1000, 2000, 2500]
     #  Call models (models should have different
     #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
     ## Linear
-    linear_error = linear(inputs_and_outputs[1], inputs_and_outputs[0], C_range)
-    linear_error = [linear_error] * (len(C_range) + 1)
+    linear_error = linear()
+    linear_error = [linear_error] * (len(cValues))
     ## LASSO
-
+    lasso_error, lasso_std = lasso()
     ## Ridge
-    ridge_error = ridge(inputs_and_outputs[1], inputs_and_outputs[0], C_range)
+    ridge_error, ridge_std = ridge()
     ## kNN
+    # kNN_error, kNN_std = kNN()
+    ## dummy
+    dummy_error = dummy_()
+    dummy_error = [dummy_error] * (len(cValues))
 
-    dummy_error = dummy_baseline(inputs_and_outputs[1], inputs_and_outputs[0])
-    dummy_error = [dummy_error] * (len(C_range) + 1)
-
-    # plt.errorbar(C_range, linear_error, label="Linear Error")
-    # plt.errorbar(C_range, ridge_error, label="Ridge Error")
-    # plt.errorbar(C_range, dummy_error, label="Dummy Error")
-    # plt.xlabel("C")
-    # plt.ylabel("Mean Square Error")
-    # plt.title("Error of Different Algorithms")
-    # plt.legend()
-    # plt.show()
-
-    print("Linear Error: " + str(linear_error))
-    print("Ridge Error:  " + str(ridge_error))
-    print("Dummy Error:  " + str(dummy_error))
     # Summary Methods
-    # Vs. Dummy
-    # Standard Error / Square-mean-error
+    plt.errorbar(cValues, linear_error, label="Linear Error")
+    plt.errorbar(cValues, lasso_error, yerr=lasso_std, label="LASSO Error")
+    plt.errorbar(cValues, ridge_error, yerr=ridge_std, label="Ridge Error")
+    plt.errorbar(cValues, dummy_error, label="Dummy Error")
+
+    plt.xlabel("C")
+    plt.ylabel("Mean Square Error")
+    plt.title("Error of Different Algorithms")
+    plt.legend()
+    plt.show()
+
+
+
+
+
 
 def scatter_plots(accommodation):
     # four variables: bedrooms, bathrooms, BER, distance
@@ -136,4 +137,3 @@ def BER_convert(rating, index):
         print(index)
 
 main()
-

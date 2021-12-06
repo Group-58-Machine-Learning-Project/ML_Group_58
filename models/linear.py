@@ -1,48 +1,43 @@
-
-
 import numpy as np
 from sklearn.linear_model import *
-from sklearn import metrics
-from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.preprocessing import PolynomialFeatures
-import matplotlib.pyplot as plt
-import pandas as pd
-# currentAlpha = 1 / (2 * c)  # alpha value for current model using current c value
-# la_model = Lasso(alpha=currentAlpha)
+from sklearn import metrics
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import KFold, cross_val_score, train_test_split
+from scraping.formatting import csv_for_models
 
-
-
-def linear(X, y, C_r):
-    from sklearn.metrics import mean_squared_error
-    from sklearn.metrics import confusion_matrix
+def linear():
     print("Calling linear model")
-    C_range = C_r
-    X_polynomial = PolynomialFeatures(1).fit_transform(X)
-    X_polynomial = np.array(X)
+    ber, price, bedrooms, bathrooms, distance = csv_for_models()
+
+    X = np.column_stack((bedrooms, bathrooms, distance, ber))
+    y = price
+
+    polynomial = PolynomialFeatures(5)
+    X = polynomial.fit_transform(X)
+
+    mean = []
+    std = []
     kf = KFold(n_splits=5)
-    error = []
-    for train, test in kf.split(X_polynomial):
+
+    temp = []
+    for train, test in kf.split(X):
         model = LinearRegression()
-        model.fit(X_polynomial[train], y[train])
-        preds = model.predict(X_polynomial[test])
-        error.append(metrics.mean_squared_error(y[test], preds))
-    linear_error = np.mean(error)
-    model = LinearRegression().fit(X_polynomial, y)
-    preds = model.predict(X_polynomial)
-    #print("Intercept = " + str(model.intercept_) + "\nCo-efficients = "
-    #      + str(model.coef_) + "\nSquare Error = " + str(mean_squared_error(y, preds)))
-    return linear_error
+        model.fit(X[train], y[train])
+        ypred = model.predict(X[test])
+        error = mean_squared_error(y[test], ypred)
+        temp.append(error)
 
+    print("Linear:")
+    print("Linear Min MSE Among Training:" + str(np.min(np.array(temp))))
 
-def format_accommodation(accommodation):
-    prices, bedrooms, bathrooms, distance, BER = [], [], [], [], []
-    for index in accommodation:
-        if(index['BER'] != "NA"):
-            prices.append(index['price'])
-            bedrooms.append(index['bedrooms'])
-            bathrooms.append(index['bathrooms'])
-            distance.append(index['distance'])
-            BER.append(index['BER'])
-        else:
-            print("BER of NA avoided.")
-    return [prices, bedrooms, bathrooms, distance, BER]
+    # Final Model
+    model = LinearRegression()
+    model.fit(X, y)
+    ypred = model.predict(X)
+    print("Intercept = " + str(model.intercept_) +
+          #"\nCo-efficients = " + str(model.coef_) +
+          "\nSquare Error = " + str(mean_squared_error(y, ypred)))
+
+    return mean_squared_error(y, ypred)
+
