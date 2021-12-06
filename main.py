@@ -43,7 +43,7 @@ def main():
     ## Ridge
     ridge_error, ridge_std = ridge()
     ## kNN
-    # kNN_error, kNN_std = kNN()
+    kNN_error, kNN_std = kNN()
     ## dummy
     dummy_error = dummy_()
     dummy_error = [dummy_error] * (len(cValues))
