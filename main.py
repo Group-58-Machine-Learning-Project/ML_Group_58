@@ -45,7 +45,7 @@ def main():
     ridge_error, ridge_std = ridge()
     ## kNN
     kNN_error, kNN_std = kNN()
-
+    print(np.min(np.array(kNN_error)))
     ## dummy
     dummy_error = dummy_()
     dummy_error = [dummy_error] * (len(cValues))
