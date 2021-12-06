@@ -5,7 +5,7 @@ from models.ridge import ridge
 from models.lasso import lasso
 from models.knn import kNN
 from summary.dummy import dummy_
-from scraping.formatting import format_listings_for_models
+from scraping.formatting import format_listings_for_models, open_csv
 import matplotlib.pyplot as plt
 from scraping.formatting import csv_for_models, get_distance
 from sklearn.linear_model import *
@@ -29,8 +29,8 @@ def main():
     inputs_and_outputs = format_listings_for_models()
     # Open csv into accommodation dictionary
     # Comment everything above, and uncomment everything below if you don't want to search each time
-    # accommodation = open_csv('scraping/houses.csv')
-    # scatter_plots(accommodation)
+    accommodation = open_csv('scraping/houses.csv')
+    scatter_plots(accommodation)
 
     cValues = [0.01, 1, 10, 30, 50, 100, 150, 200]
     #  Call models (models should have different
@@ -86,26 +86,26 @@ def scatter_plots(accommodation):
     # Prices VS Bedrooms
     plt.scatter(bedrooms, prices, c='b', label="Prices VS Bedrooms")
     plt.title("Prices VS Bedrooms")
-    plt.xlabel("Price")
-    plt.ylabel("# Bedrooms")
+    plt.ylabel("Price")
+    plt.xlabel("# Bedrooms")
     plt.show()
     # Prices VS Bathrooms
     plt.scatter(bathrooms, prices, c='g', label="Prices VS Bathrooms")
     plt.title("Prices VS Bathrooms")
-    plt.xlabel("Price")
-    plt.ylabel("# Bathrooms")
+    plt.ylabel("Price")
+    plt.xlabel("# Bathrooms")
     plt.show()
     # Prices VS Distance
     plt.scatter(distance, prices, c='r', label="Prices VS Distance")
     plt.title("Prices VS Distance")
-    plt.xlabel("Price")
-    plt.ylabel("Distance")
+    plt.ylabel("Price")
+    plt.xlabel("Distance")
     plt.show()
     # Prices VS BER
-    plt.scatter(BER, prices_BER, c='g', label="Prices VS BER")
+    plt.scatter(BER, prices_BER, c='black', label="Prices VS BER")
     plt.title("Prices VS BER")
-    plt.xlabel("Price")
-    plt.ylabel("BER Score, [Higher Score => Better BER]")
+    plt.ylabel("Price")
+    plt.xlabel("BER Score, [Higher Score => Better BER]")
     plt.show()
 
 
