@@ -19,7 +19,7 @@ def ridge():
     mean = []
     std = []
     # Best C = 0.01
-    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200, 300, 500, 1000, 2000, 2500]
+    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200]
     kf = KFold(n_splits=5)
 
     for C in cValues:

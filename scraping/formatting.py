@@ -133,7 +133,7 @@ def BER_convert(rating):
 def format_listings_for_models():
     # [prices, bedrooms, bathrooms, distance, BER]
     # df = pd.read_csv("houses_copy.csv")
-    df = pd.read_csv("C:/Users/John/Code/ML/ML_Group/scraping/houses.csv")
+    df = pd.read_csv("scraping/houses.csv")
     x_bedrooms = df.iloc[:, 2]  # Contains the first column of X values
     x_bathrooms = df.iloc[:, 3]  # Contains the second colunm of X values
     x_distance = df.iloc[:, 5]  # Contains the first column of X values
