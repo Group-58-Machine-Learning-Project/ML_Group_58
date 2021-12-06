@@ -32,24 +32,26 @@ def main():
     # accommodation = open_csv('scraping/houses.csv')
     # scatter_plots(accommodation)
 
-    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200, 300, 500, 1000, 2000, 2500]
+    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200]
     #  Call models (models should have different
     #  folds, training/testing, different C values, AKA all the different types we used in past assignments):
     ## Linear
-    linear_error = linear()
-    linear_error = [linear_error] * (len(cValues))
+    linear_error, linear_std = linear()
+    #linear_error = [linear_error] * (len(cValues))
+    #linear_std = [linear_std] * (len(cValues))
     ## LASSO
     lasso_error, lasso_std = lasso()
     ## Ridge
     ridge_error, ridge_std = ridge()
     ## kNN
     kNN_error, kNN_std = kNN()
+
     ## dummy
     dummy_error = dummy_()
     dummy_error = [dummy_error] * (len(cValues))
 
     # Summary Methods
-    plt.errorbar(cValues, linear_error, label="Linear Error")
+    #plt.errorbar(cValues, linear_error, yerr=linear_std, label="Linear Error")
     plt.errorbar(cValues, lasso_error, yerr=lasso_std, label="LASSO Error")
     plt.errorbar(cValues, ridge_error, yerr=ridge_std, label="Ridge Error")
     plt.errorbar(cValues, dummy_error, label="Dummy Error")

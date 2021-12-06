@@ -34,9 +34,10 @@ def kNN():
     X = np.column_stack((bedrooms, bathrooms, distance, ber))
     y = price
     weightFunctions = ['uniform', gaussianKernel10, gaussianKernel100, gaussianKernel500]
+    weightFNames = ['uniform', 'Sigma = 10', 'Sigma = 100', 'Sigma = 500']
 
     k_errors = []
-    for wf in weightFunctions:
+    for wf, name in zip(weightFunctions, weightFNames):
 
         mean = []
         std = []
@@ -58,14 +59,15 @@ def kNN():
             mean.append(np.array(temp).mean())
             std.append(np.array(temp).std())
 
-        print(np.min(mean))
-
-        plt.errorbar(kValues, mean, yerr=std)
+        #print(np.min(mean))
+        plt.errorbar(kValues, mean, yerr=std, label=f"kNN MSE ({name})")
+        plt.title("MSE of kNN")
         plt.xlabel("K")
         plt.ylabel("Mean Square Error")
+        plt.legend()
         plt.show()
 
-    # Best of these is k = 15, with weight of 'uniform'
+    # Best of these is k = 6, with weight of 'uniform'
     for k in kValues:
         model = KNeighborsRegressor(n_neighbors=k, weights='uniform')
         temp = []

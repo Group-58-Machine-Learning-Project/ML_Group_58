@@ -27,7 +27,7 @@ def lasso():
 
     mean = []
     std = []
-    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200, 300, 500, 1000, 2000, 2500]
+    cValues = [0.01, 1, 10, 30, 50, 100, 150, 200]
     kf = KFold(n_splits=5)
 
     for C in cValues:
@@ -56,7 +56,7 @@ def lasso():
     print("LASSO Best MSE Among C Values = " + str(np.min(mean)))
 
     # Final Model
-    model = Lasso(alpha=(1/(2*100)))
+    model = Lasso(alpha=(1/(2*50)))
     model.fit(X, y)
     ypred = model.predict(X)
     print("Square Error = " + str(mean_squared_error(y, ypred)))
